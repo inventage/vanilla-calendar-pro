@@ -15,7 +15,13 @@ const createToInput = (self: Calendar) => {
   setContext(self, 'inputModeInit', true);
   setContext(self, 'isShowInInputMode', false);
   setContext(self, 'mainElement', calendar);
-  document.body.appendChild(self.context.mainElement);
+
+  const rootNode = self.context.inputElement!.getRootNode();
+  if (rootNode instanceof ShadowRoot) {
+    rootNode.appendChild(self.context.mainElement);
+  } else {
+    document.body.appendChild(self.context.mainElement);
+  }
 
   reset(self, {
     year: true,
