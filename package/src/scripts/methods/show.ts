@@ -28,12 +28,18 @@ const show = (self: Calendar) => {
   document.addEventListener('keydown', handleEscapeKey);
   self.context.cleanupHandlers.push(() => document.removeEventListener('keydown', handleEscapeKey));
 
-  const documentClickEvent = (e: MouseEvent) => {
-    if (e.target === self.context.inputElement || self.context.mainElement.contains(e.target as HTMLElement)) return;
+  const hideOnClickOutsideOfCalender = (e: MouseEvent) => {
+    if (
+      e.target === self.context.inputElement ||
+      self.context.mainElement.contains(e.target as HTMLElement) ||
+      e.composedPath().includes(self.context.mainElement) ||
+      (self.context.inputElement && e.composedPath().includes(self.context.inputElement))
+    )
+      return;
     hide(self);
   };
-  document.addEventListener('click', documentClickEvent, { capture: true });
-  self.context.cleanupHandlers.push(() => document.removeEventListener('click', documentClickEvent, { capture: true }));
+  document.addEventListener('click', hideOnClickOutsideOfCalender, { capture: true });
+  self.context.cleanupHandlers.push(() => document.removeEventListener('click', hideOnClickOutsideOfCalender, { capture: true }));
 
   if (self.onShow) self.onShow(self);
 };
