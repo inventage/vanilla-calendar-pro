@@ -15,11 +15,11 @@ const handleInput = (self: Calendar) => {
   };
 
   (self.context.inputElement as HTMLInputElement).addEventListener('click', handleOpenCalendar);
-  (self.context.inputElement as HTMLInputElement).addEventListener('focus', handleOpenCalendar);
+  (self.context.inputElement as HTMLInputElement).addEventListener('focusin', handleOpenCalendar);
 
   return () => {
     (self.context.inputElement as HTMLInputElement).removeEventListener('click', handleOpenCalendar);
-    (self.context.inputElement as HTMLInputElement).removeEventListener('focus', handleOpenCalendar);
+    (self.context.inputElement as HTMLInputElement).removeEventListener('focusin', handleOpenCalendar);
   };
 };
 
